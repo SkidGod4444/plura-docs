@@ -1,10 +1,8 @@
 "use client";
-
-import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { Switch } from "@/components/ui/switch";
+import { Moon, Sun } from "lucide-react";
 
 export default function ThemeToggler({ className }: { className?: string }) {
   const { theme, setTheme } = useTheme();
@@ -48,15 +46,23 @@ export default function ThemeToggler({ className }: { className?: string }) {
 
 
   return (
-    <Button
-      onClick={toggleTheme}
-      variant="ghost"
-      size="icon"
-      className={cn("rounded-full", className)}
-    >
-      <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+    <div>
+      <div className="relative inline-grid h-9 grid-cols-[1fr_1fr] items-center text-sm font-medium">
+        <Switch
+          id="switch-12"
+          checked={theme === "light" ? false : true}
+          onCheckedChange={toggleTheme}
+          className="peer absolute inset-0 h-[inherit] w-auto data-[state=checked]:bg-input/50 data-[state=unchecked]:bg-input/50 [&_span]:h-full [&_span]:w-1/2 [&_span]:transition-transform [&_span]:duration-300 [&_span]:[transition-timing-function:cubic-bezier(0.16,1,0.3,1)] data-[state=checked]:[&_span]:translate-x-full rtl:data-[state=checked]:[&_span]:-translate-x-full"
+        />
+        <span className="pointer-events-none relative ms-0.5 flex min-w-8 items-center justify-center text-center peer-data-[state=checked]:text-muted-foreground/70">
+          <Moon size={16} strokeWidth={2} aria-hidden="true" />
+        </span>
+        <span className="pointer-events-none relative me-0.5 flex min-w-8 items-center justify-center text-center peer-data-[state=unchecked]:text-muted-foreground/70">
+          <Sun size={16} strokeWidth={2} aria-hidden="true" />
+        </span>
+      </div>
+    </div>
   );
 }
+
+
